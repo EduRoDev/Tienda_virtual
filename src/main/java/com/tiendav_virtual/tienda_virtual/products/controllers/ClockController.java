@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tiendav_virtual.tienda_virtual.products.models.dtos.ClockDTO;
@@ -18,8 +19,8 @@ public class ClockController {
     }
 
     @PostMapping("/clocks")
-    public void selectClock(ClockDTO clockDTO) {
-        clockServices.selectClock(clockDTO);
+    public void selectClock(@RequestBody ClockDTO clockDTO) {
+        clockServices.createClock(clockDTO);
     }
 
     @GetMapping("/clocks")

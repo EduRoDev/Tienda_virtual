@@ -3,9 +3,12 @@ package com.tiendav_virtual.tienda_virtual.products.services.implement;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tiendav_virtual.tienda_virtual.products.models.dtos.ClockDTO;
+import com.tiendav_virtual.tienda_virtual.products.models.entities.Clock;
+import com.tiendav_virtual.tienda_virtual.products.repositories.ClockRepository;
 import com.tiendav_virtual.tienda_virtual.products.services.ClockServices;
 
 
@@ -13,18 +16,37 @@ import com.tiendav_virtual.tienda_virtual.products.services.ClockServices;
 @Service
 public class ClockServicesImpl implements ClockServices{
     
+    @Autowired
+    private ClockRepository clockRepository;
+
+
     @Override
     public List<ClockDTO> findClocks(){
-        System.out.println("Finding clocks");
-        List<ClockDTO> clocks = Arrays.asList(
-            new ClockDTO(1, "abc-123", "Omega", "2023", "Rolex", 10, 1500.0),
-            new ClockDTO(2, "dfe-456", "Breitling", "2020", "Rolex", 5, 1800.0)
-        );
-        return clocks;
+        List<Clock> clocks = clockRepository.findAll();
+    
+        System.out.println("Cantidad de relojes encontrados: " + clocks.size());
+    
+        return clocks.stream()
+                .map(clock -> new ClockDTO(
+                        clock.getId(),
+                        clock.getSku(),
+                        clock.getName(),
+                        clock.getModel(),
+                        clock.getBrand(),
+                        clock.getQuantity(),
+                        clock.getPrice()))
+                .toList();
     }
 
     @Override
-    public void selectClock(ClockDTO clockDTO) {
-        System.out.println("Selecting clock");
+    public void createClock(ClockDTO clockDTO) {
+        Clock clock = new Clock();
+        clock.setSku(clockDTO.getSku() != null ? clockDTO.getSku() : "DEFAULT-SKU");
+        clock.setName(clockDTO.getName());
+        clock.setModel(clockDTO.getModel());
+        clock.setBrand(clockDTO.getBrand());
+        clock.setQuantity(clockDTO.getQuantity());
+        clock.setPrice(clockDTO.getPrice());
+        clockRepository.save(clock);
     }    
 }
