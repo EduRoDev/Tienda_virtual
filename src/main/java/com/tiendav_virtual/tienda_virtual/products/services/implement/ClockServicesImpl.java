@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tiendav_virtual.tienda_virtual.products.models.dtos.ClockDTO;
 import com.tiendav_virtual.tienda_virtual.products.models.entities.Clock;
@@ -47,5 +48,21 @@ public class ClockServicesImpl implements ClockServices{
         clock.setQuantity(clockDTO.getQuantity());
         clock.setPrice(clockDTO.getPrice());
         clockRepository.save(clock);
-    }    
+    }
+    
+    
+    @Override
+    @Transactional 
+    public void purchaseClock(long id) {
+        
+        Clock clock = clockRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reloj no encontrado"));
+        
+        if (clock.getQuantity() <= 0) {
+            throw new RuntimeException("No hay stock disponible para este reloj");
+        }
+        
+        clock.setQuantity(clock.getQuantity() - 1);
+        clockRepository.save(clock);
+    }
 }
