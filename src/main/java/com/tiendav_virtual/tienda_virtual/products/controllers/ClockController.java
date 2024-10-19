@@ -2,6 +2,7 @@ package com.tiendav_virtual.tienda_virtual.products.controllers;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import com.tiendav_virtual.tienda_virtual.products.models.entities.Clock;
 import com.tiendav_virtual.tienda_virtual.products.services.ClockServices;
 
 @RestController
+@CrossOrigin("*")
 public class ClockController {
     private final ClockServices clockServices;
 
