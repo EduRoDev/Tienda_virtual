@@ -1,6 +1,8 @@
 package com.tiendav_virtual.tienda_virtual.products.models.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,5 +22,9 @@ public class Clock {
     private String brand;
     private int quantity;
     private double price;
+
+    @Enumerated(EnumType.STRING)
+    private EstadoPago estadoPago;
+    private Boolean verificado;
 
 }
